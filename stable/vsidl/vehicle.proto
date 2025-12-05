@@ -1,0 +1,50 @@
+//
+// Copyright (C) 2026 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+
+syntax = "proto3";
+import "sdv/vsidl/v1/annotations.proto";
+package com.sdv.google.vpm.vehicle;
+
+/* The set of allowed vehicle states in the vehicle and in the SDV VM. */
+enum VpmVehicleState {
+  /* The default value for vehicle states if no state is specified. */
+  VEHICLE_STATE_UNSPECIFIED = 0;
+  /* CAR is OFF from a user prespective, but the PCU can still detect car is on. */
+  LOW_POWER = 1;
+  /* Software update is ongoing on some/all parts of the vehicle. */
+  SOFTWARE_UPDATE = 2;
+  /* Few ECUs are supplied for specific activity without customer presence. */
+  PARK = 3;
+  /* Comfort ECUs are supplied and usable ex. (seat heater, cluster, central panel, etc.)
+   * or customer activity detected ex. (opening door, unlocking car, etc.) */
+  LIFE_ON_BOARD = 4;
+  /* Engine ECUs are supplied, engine is operational and driving is not possible.*/
+  VEHICLE_ON = 5;
+  /* Engine ECUs are supplied, engine is operational and driving is possible.*/
+  TRACTION_ON = 6;
+}
+
+/* Client facing reprensentation of the vehicle state exposed via PUB/SUB API using Data Tunnel. */
+message VehicleStateChange {
+  option (.sdv.vsidl.v1.publication) = {
+    model: SINGLE_PUB
+    message_count: 2
+  };
+
+  /* Required. Indicates the current state of the vehicle. */
+  VpmVehicleState vehicle_state = 1;
+}

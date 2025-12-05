@@ -1,0 +1,113 @@
+//
+// Copyright (C) 2026 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+syntax = "proto3";
+import "vehicle.proto";
+import "power.proto";
+
+package com.sdv.google.vpm;
+
+/* OEM-facing representation of the request to set a vehicle state. */
+message SetVehicleStateRequest {
+  /* Required. The new vehicle state to be set in the SDV VM. */
+  vehicle.VpmVehicleState vehicle_state = 1;
+}
+
+/* OEM-facing representation of the set vehicle state response. */
+message SetVehicleStateResponse {}
+
+/* OEM-facing representation of power states that can be requested by the OEM. */
+enum PowerStateRequest {
+  /* Default value when request ist not specified. */
+  REQUEST_UNSPECIFIED = 0;
+  /* Set the power state of the VM to on.*/
+  TURN_ON = 1;
+  /* Prepare the VM to suspend or shutdown.*/
+  PREPARE_SHUTDOWN = 2;
+  /* Cancel the suspend or shutdown preparation.*/
+  CANCEL_SHUTDOWN = 3;
+  /* Execute final suspend or shutdown. */
+  FINISH_SHUTDOWN = 4;
+}
+
+/* OEM-facing representation of shutdown types that can be chosen with PREPARE_SHUTDOWN
+ * PowerStateRequest. */
+enum ShutdownType {
+  /* Default value when shutdown type is not specified. */
+  SHUTDOWN_TYPE_UNSPECIFIED = 0;
+  /* Shutdown type to completely turning off the VM.*/
+  POWER_OFF = 1;
+  /* Shutdown type to suspend the VM to RAM.*/
+  SUSPEND_TO_RAM = 2;
+  /* Shutdown type to suspend the VM to DISK.*/
+  SUSPEND_TO_DISK = 3;
+}
+
+/* OEM-facing representation of the power state change request message. */
+message PowerStateChangeRequest {
+  /* Required. The power state to request. */
+  PowerStateRequest power_request = 1;
+  /* Optional. One of the shutdown types if its prepare or finish shutdown. */
+  ShutdownType shutdown_type = 2;
+  /* Required. The timeout allowed to execute the request if the request is accepted.
+   * Cannot be zero. */
+  uint64 timeout_ms = 3;
+}
+
+/* OEM-facing representation of the power state change response message. */
+message PowerStateChangeResponse {
+  PowerStateChangeRequestError error = 1;
+  /* OEM-facing representation of the errors that could occur during power state change requests. */
+  enum PowerStateChangeRequestError {
+    /* Default value, no error occurred and power state change request was received.*/
+    NO_ERROR = 0;
+    /* Transition for the current state to the requested one is invalid. */
+    INVALID_TRANSITION = 1;
+  }
+}
+
+/* OEM-facing representation of the power state response message. */
+message GetPowerStateResponse {
+  /* The current power state report of the VM. */
+  power.PowerStateReport power_state = 1;
+}
+
+/* OEM-facing representation of the power state request message. */
+message GetPowerStateRequest {}
+
+/** VPM RPC API available only to the OEM. */
+
+service VpmSystemService {
+  /* RPC request that allows the OEM to set the vehicle state in the SDV VM.
+
+   * If the request is successful, the new vehicle state is set and is broadcasted to the vehicle
+   * state listeners in the SDV VM
+
+   * If the request fails, an error is returned with the corresponding response code. */
+  rpc SetVehicleState(SetVehicleStateRequest) returns (SetVehicleStateResponse) {};
+
+  /* RPC request that allows the OEM to set the power state in the SDV VM.
+
+   * If the request is successful, the new power state is sent to the Orchestrator and SDV agents.
+   * OEM will receive a callback via PowerNotificationService either after successful execution of
+   * the power state changes or after a timeout.
+
+   * If the request fails, an error is returned with the corresponding response code. */
+  rpc SetPowerState(PowerStateChangeRequest) returns (PowerStateChangeResponse) {};
+
+  /* RPC request that allows the OEM to get the current power state in the SDV VM.*/
+  rpc GetPowerState(GetPowerStateRequest) returns (GetPowerStateResponse) {};
+}

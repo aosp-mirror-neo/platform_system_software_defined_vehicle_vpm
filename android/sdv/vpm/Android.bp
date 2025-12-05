@@ -1,0 +1,236 @@
+//
+// Copyright (C) 2026 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+package {
+    default_applicable_licenses: ["Android-Apache-2.0"],
+    default_team: "trendy_team_automotive",
+}
+
+rust_defaults {
+    name: "vpm_agent@rust_defaults",
+    defaults: ["sdv@rust_defaults"],
+    crate_name: "sdv_vpm",
+    rustlibs: [
+        "libmockall",
+        "libanyhow",
+        "libsdv_log_rust",
+        "libprotobuf",
+        "liblog_rust",
+        "libtokio",
+        "librustutils",
+        "libbinder_tokio_rs",
+        "libsdv_vpm_api",
+        "libsdv_pm",
+        "libtokio_util",
+        "libthiserror",
+        "libsdv_comms_ctx_impl",
+        "libsdv_comms_rs",
+        "libsdv_status_rs",
+        "libsdv_mw_rs_sdv_comms",
+        "libsdv_mw_rs_comms",
+        "libsdv_mw_rs_com_sdv_google_vpm_vpm_system_service_bundle",
+        "libsdv_vpm_power_persistency_tags",
+        "libcom_sdv_google_vpm_vpm_system_service_rpc_rs",
+        "libcom_sdv_google_vpm_client_power_notification_service_rpc_rs",
+        "google.sdv.vpm-V1-rust",
+    ],
+    proc_macros: [
+        "libasync_trait",
+    ],
+    system_ext_specific: true,
+    lints: "android",
+    clippy_lints: "android",
+    vintf_fragments: [":sdv_vpm_agent_vintf_fragments"],
+}
+
+rust_library {
+    name: "libsdv_vpm_power_persistency_tags",
+    crate_name: "sdv_vpm_power_persistency_tags",
+    srcs: ["srcs/power_state_tags.rs"],
+}
+
+rust_library {
+    name: "libsdv_vpm",
+    srcs: ["srcs/agent.rs"],
+    defaults: [
+        "sdv_tracing@rust_defaults",
+        "vpm_agent@rust_defaults",
+    ],
+}
+
+rust_binary {
+    name: "sdv_vpm_agent",
+    srcs: ["srcs/main.rs"],
+    defaults: [
+        "sdv_tracing@rust_defaults",
+        "vpm_agent@rust_defaults",
+    ],
+    rustlibs: [
+        "libsdv_vpm",
+    ],
+    system_ext_specific: true,
+}
+
+rust_test {
+    name: "sdv_vpm_agent_unit_tests",
+    srcs: ["srcs/agent.rs"],
+    defaults: [
+        "sdv_tracing@rust_defaults",
+        "vpm_agent@rust_defaults",
+    ],
+    rustlibs: [
+        "libgoogletest_rust",
+        "libonce_cell",
+        "libfutures",
+    ],
+    ld_flags: ["-Wl,--no-as-needed"],
+    test_options: {
+        unit_test: true,
+    },
+    test_suites: [
+        "automotive-sdv-tests",
+        "general-tests",
+    ],
+    prefer_rlib: true,
+    test_config_template: ":sdv_authz_enforcement_flag_enabled_config_template",
+}
+
+rust_test {
+    name: "sdv_core_automotive_services_integration_vpm_agent_test",
+    srcs: ["tests/integration_test.rs"],
+    defaults: [
+        "sdv_tracing@rust_defaults",
+        "vpm_agent@rust_defaults",
+    ],
+    rustlibs: [
+        "libfutures_util",
+        "libsdv_mw_rs_test_sdv_vpm_vpm_system_client",
+    ],
+    proc_macros: [
+        "libasync_trait",
+    ],
+    ld_flags: ["-Wl,--no-as-needed"],
+    test_suites: [
+        "automotive-sdv-tests",
+        "general-tests",
+    ],
+    test_options: {
+        unit_test: false,
+    },
+    require_root: true,
+    test_config_template: ":sdv_authz_enforcement_flag_enabled_config_template",
+}
+
+rust_test {
+    name: "sdv_core_automotive_services_integration_vpm_agent_power_cancellation_test",
+    srcs: ["tests/power_cancellation_test.rs"],
+    defaults: [
+        "sdv_tracing@rust_defaults",
+        "vpm_agent@rust_defaults",
+    ],
+    rustlibs: [
+        "libfutures_util",
+        "libsdv_mw_rs_test_sdv_vpm_vpm_system_client",
+    ],
+    proc_macros: [
+        "libasync_trait",
+    ],
+    ld_flags: ["-Wl,--no-as-needed"],
+    test_options: {
+        unit_test: false,
+    },
+    test_suites: [
+        "automotive-sdv-tests",
+        "general-tests",
+    ],
+    require_root: true,
+    test_config_template: ":sdv_authz_enforcement_flag_enabled_config_template",
+}
+
+rust_test {
+    name: "sdv_core_automotive_services_integration_vpm_agent_power_prepare_interruption_test",
+    srcs: ["tests/power_interruption_test.rs"],
+    defaults: [
+        "sdv_tracing@rust_defaults",
+        "vpm_agent@rust_defaults",
+    ],
+    rustlibs: [
+        "libfutures_util",
+        "libsdv_mw_rs_test_sdv_vpm_vpm_system_client",
+    ],
+    proc_macros: [
+        "libasync_trait",
+    ],
+    ld_flags: ["-Wl,--no-as-needed"],
+    test_suites: [
+        "automotive-sdv-tests",
+        "general-tests",
+    ],
+    require_root: true,
+    test_config_template: ":sdv_authz_enforcement_flag_enabled_config_template",
+}
+
+rust_test {
+    name: "sdv_core_automotive_services_integration_vpm_agent_power_timeout_test",
+    srcs: ["tests/power_timeout_test.rs"],
+    defaults: [
+        "sdv_tracing@rust_defaults",
+        "vpm_agent@rust_defaults",
+    ],
+    rustlibs: [
+        "libfutures_util",
+        "libsdv_mw_rs_test_sdv_vpm_vpm_system_client",
+    ],
+    proc_macros: [
+        "libasync_trait",
+    ],
+    ld_flags: ["-Wl,--no-as-needed"],
+    test_options: {
+        unit_test: false,
+    },
+    test_suites: [
+        "automotive-sdv-tests",
+        "general-tests",
+    ],
+    require_root: true,
+    test_config_template: ":sdv_authz_enforcement_flag_enabled_config_template",
+}
+
+rust_test {
+    name: "sdv_core_automotive_services_integration_vpm_agent_power_interruption_test",
+    srcs: ["tests/power_prepare_interruption_test.rs"],
+    defaults: [
+        "sdv_tracing@rust_defaults",
+        "vpm_agent@rust_defaults",
+    ],
+    rustlibs: [
+        "libfutures_util",
+        "libsdv_mw_rs_test_sdv_vpm_vpm_system_client",
+    ],
+    proc_macros: [
+        "libasync_trait",
+    ],
+    ld_flags: ["-Wl,--no-as-needed"],
+    test_options: {
+        unit_test: false,
+    },
+    test_suites: [
+        "automotive-sdv-tests",
+        "general-tests",
+    ],
+    require_root: true,
+    test_config_template: ":sdv_authz_enforcement_flag_enabled_config_template",
+}
