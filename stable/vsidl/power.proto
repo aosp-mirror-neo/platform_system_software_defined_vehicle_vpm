@@ -1,0 +1,85 @@
+//
+// Copyright (C) 2026 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+syntax = "proto3";
+package com.sdv.google.vpm.power;
+
+enum PowerStateReport {
+  /* The default value if there was no report specified. */
+  REPORT_UNSPECIFIED = 0;
+
+  /* VM is booting from cold boot.
+   * SDV agents will start with init.rc. */
+  POWER_OFF_EXIT = 1;
+
+  /* VM is resuming from suspend-to-RAM.
+   * SDV agents will resume from RAM and get a notification about the power update if they
+   * subscribed to power state notifications. */
+  SUSPEND_TO_RAM_EXIT = 2;
+
+  /* VM is resuming from suspend-to-DISK.
+   * SDV agents will resume from DISK and get a notification about the power update if they
+   * subscribed to power state notifications. */
+  SUSPEND_TO_DISK_EXIT = 3;
+
+  /* VM is running normally. */
+  ON = 4;
+
+  /* VM is starting to prepare for power-off.
+   * OEM Applications that can be cleaned up early should be cleaned up in this state.
+   * OEM Applications can still rely on SDV agents being running at this stage.
+   * SDV agents should not suspend or power-off at this stage because OEM applications might still
+   * need to communicate with them. */
+  POWER_OFF_ENTER = 5;
+
+  /* VM is starting to prepare for suspend-to-RAM.
+   * OEM Applications that can be cleaned up early should be cleaned up in this state.
+   * OEM Applications can still rely on SDV agents being running at this stage.
+   * SDV agents should not suspend or power-off at this stage because OEM applications might still
+   * need to communicate with them. */
+  SUSPEND_TO_RAM_ENTER = 6;
+
+  /* VM is starting to prepare for suspend-to-DISK.
+   * OEM Applications that can be cleaned up early should be cleaned up in this state.
+   * OEM Applications can still rely on SDV agents being running at this stage.
+   * SDV agents should not suspend or power-off at this stage because OEM applications might still
+   * need to communicate with them. */
+  SUSPEND_TO_DISK_ENTER = 7;
+
+  /* VM has finished the initial cleanup and started waiting for the signal from the OEM to
+   * complete or cancel a power-off or suspend. */
+  WAIT_FOR_FINISH = 8;
+
+  /* This means a cancellation for shutdown preparation has been requested by the OEM.
+   * It can only occur no later than WAIT_FOR_FINISH.
+   * OEM applications would be requested by Lifecycle manager to undo suspend/power-off preparation
+   * which was done. */
+  SHUTDOWN_CANCELLED = 9;
+
+  /* As per the FINISH_SHUTDOWN request from the OEM, VM is finishing up the final cleanup and
+   * power off the underlying platform. SDV agents should perform their cleanups before power-off.
+   */
+  POWER_OFF_POST_FINISH = 10;
+
+  /* This indicates the VM is about to suspend to RAM and suspend the underlying platform to RAM.
+   * OEM applications should not rely on SDV agents at this point because they would also be
+   * suspending. SDV agents should perform their cleanups before suspension. */
+  SUSPEND_TO_RAM_POST_FINISH = 11;
+
+  /* This indicates the VM is about to suspend to DISK and suspend the underlying platform to RAM.
+   * OEM applications should not rely on SDV agents at this point because they would also be
+   * suspending. SDV agents should perform their cleanups before suspension. */
+  SUSPEND_TO_DISK_POST_FINISH = 12;
+}

@@ -1,0 +1,57 @@
+#
+# Copyright (C) 2026 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# proto-file: //system/software_defined_vehicle/core_services/service_authz/proto/sdv/authz/policy/acl_policy.proto
+# proto-message: AclPolicy
+
+# ACL policies for VPM Unit Types.
+
+acls {
+    name: "Internal"
+    include: "com.sdv.google.vpm.VpmSystemServiceBundle"
+}
+
+acls {
+    name: "Public"
+    include: "*"
+}
+
+acls {
+    name: "VpmClients"
+    include: "com.sdv.google.orchestrator.OrchestratorServiceBundle"
+    include: "com.sdv.google.orchestrator.test.OrchTestServiceBundle"
+    include: "com.sdv.google.vpm.client.VpmSystemClient"
+    include: "com.sdv.google.vpm.vehicle.client.subscriber.VehicleStateSubscriber"
+}
+
+unit_types {
+    name: "VpmSystemService"
+    acl_names: "Internal"
+}
+
+unit_types {
+    name: "vehicle.VehicleStateChange"
+    acl_names: "Public"
+}
+
+service_units {
+    name: "com-sdv-google-vpm-vehicle-vehicle-state-change-unique"
+    acl_names: "VpmClients"
+}
+
+service_units {
+    name: "com-sdv-google-vpm-vpm-system-service"
+    acl_names: "VpmClients"
+}
