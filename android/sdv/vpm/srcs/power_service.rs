@@ -384,7 +384,7 @@ fn validate_power_state_request(request: PowerStateChangeRequest) -> anyhow::Res
         }
     };
 
-    // Suspend to disk is not supported in Concorde scope.
+    // Suspend to disk is not supported.
     // TODO(b/348193447)
     if power_state.get_report() == PowerStateReport::SUSPEND_TO_DISK_ENTER
         || power_state.get_report() == PowerStateReport::SUSPEND_TO_DISK_POST_FINISH
