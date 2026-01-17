@@ -35,6 +35,12 @@
     },
     {
       "name": "sdv_core_automotive_services_integration_vpm_agent_power_interruption_test"
+    },
+    {
+      "name": "sdv_core_core_services_integration_orch_initial_power_mode_test"
+    },
+    {
+      "name": "sdv_core_core_services_integration_orch_vpm_tests"
     }
   ]
 }
