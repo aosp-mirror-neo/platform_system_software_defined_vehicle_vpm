@@ -29,8 +29,8 @@ async fn main() -> anyhow::Result<()> {
     binder::ProcessState::start_thread_pool();
 
     let res = sdv_comms_ctx::wait_for_agents();
-    if res.is_err() {
-        error!("wait_for_agents() failed with error: {:?}", res.unwrap_err());
+    if let Err(ref err) = res {
+        error!("wait_for_agents() failed with error: {:?}", err);
     }
 
     sdv_vpm::create_and_start_agent(Agent::new).await?;
