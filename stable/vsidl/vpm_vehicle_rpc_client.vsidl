@@ -16,18 +16,18 @@
 # proto-file: //system/software_defined_vehicle/vsidl/language/src/protos/sdv/vsidl/v1/syntax.proto
 # proto-message: VsidlEntry
 
-package: "com.sdv.google.vpm.client"
+package: "com.android.sdv.vpm.client"
 
 service_bundle {
     name: "VpmSystemClient"
 
     # Client for VPM system interface.
     client {
-        service: "com.sdv.google.vpm.VpmSystemService"
+        service: "com.android.sdv.vpm.VpmSystemService"
     }
 
     # Server to VPM notification interface.
     server {
-        service: "com.sdv.google.vpm.client.PowerNotificationService"
+        service: "com.android.sdv.vpm.client.PowerNotificationService"
     }
 }

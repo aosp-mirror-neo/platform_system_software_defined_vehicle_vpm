@@ -17,7 +17,7 @@
 
 syntax = "proto3";
 import "power.proto";
-package com.sdv.google.vpm.client;
+package com.android.sdv.vpm.client;
 
 /* OEM message that denotes that a power state transition has been done. */
 message PowerStateNotificationRequest {

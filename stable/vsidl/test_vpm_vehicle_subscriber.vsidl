@@ -22,15 +22,15 @@ service_bundle {
     name: "VpmSystemClient"
 
     subscriber {
-        message:  "com.sdv.google.vpm.vehicle.VehicleStateChange"
+        message:  "com.android.sdv.vpm.vehicle.VehicleStateChange"
     }
 
     server {
-        service: "com.sdv.google.vpm.client.PowerNotificationService"
+        service: "com.android.sdv.vpm.client.PowerNotificationService"
     }
 
     client {
-        service: "com.sdv.google.vpm.VpmSystemService"
+        service: "com.android.sdv.vpm.VpmSystemService"
     }
 
 }

@@ -20,7 +20,7 @@
 
 acls {
     name: "Internal"
-    include: "com.sdv.google.vpm.VpmSystemServiceBundle"
+    include: "com.android.sdv.vpm.VpmSystemServiceBundle"
 }
 
 acls {
@@ -32,8 +32,8 @@ acls {
     name: "VpmClients"
     include: "com.sdv.google.orchestrator.OrchestratorServiceBundle"
     include: "com.sdv.google.orchestrator.test.OrchTestServiceBundle"
-    include: "com.sdv.google.vpm.client.VpmSystemClient"
-    include: "com.sdv.google.vpm.vehicle.client.subscriber.VehicleStateSubscriber"
+    include: "com.android.sdv.vpm.client.VpmSystemClient"
+    include: "com.android.sdv.vpm.vehicle.client.subscriber.VehicleStateSubscriber"
 }
 
 unit_types {
@@ -47,11 +47,11 @@ unit_types {
 }
 
 service_units {
-    name: "com-sdv-google-vpm-vehicle-vehicle-state-change-unique"
+    name: "com-android-sdv-vpm-vehicle-vehicle-state-change-unique"
     acl_names: "VpmClients"
 }
 
 service_units {
-    name: "com-sdv-google-vpm-vpm-system-service"
+    name: "com-android-sdv-vpm-vpm-system-service"
     acl_names: "VpmClients"
 }
