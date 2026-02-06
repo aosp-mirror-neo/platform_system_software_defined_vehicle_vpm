@@ -18,7 +18,7 @@ syntax = "proto3";
 import "vehicle.proto";
 import "power.proto";
 
-package com.sdv.google.vpm;
+package com.android.sdv.vpm;
 
 /* OEM-facing representation of the request to set a vehicle state. */
 message SetVehicleStateRequest {

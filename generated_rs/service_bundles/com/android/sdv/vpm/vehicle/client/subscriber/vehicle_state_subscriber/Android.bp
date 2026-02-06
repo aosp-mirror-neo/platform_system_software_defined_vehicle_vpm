@@ -20,25 +20,30 @@ package {
 }
 
 genrule {
-    name: "libcom_sdv_google_vpm_client_power_notification_service_rpc_rs_src",
+    name: "libsdv_mw_rs_com_android_sdv_vpm_vehicle_client_subscriber_vehicle_state_subscriber_rs",
     tools: ["extract_catalog_zip"],
     srcs: [":vsidlc_vpm_v1_catalog_files"],
-    out: ["lib.rs"],
-    cmd: "$(location extract_catalog_zip) $(in) --rpc com.sdv.google.vpm.client PowerNotificationService",
+    out: [
+        "service_bundle.rs",
+    ],
+    cmd: "$(location extract_catalog_zip) $(in) --service-bundle com.android.sdv.vpm.vehicle.client.subscriber VehicleStateSubscriber",
 }
 
 rust_library {
-    name: "libcom_sdv_google_vpm_client_power_notification_service_rpc_rs",
-    crate_name: "com_sdv_google_vpm_client_power_notification_service_rpc",
+    name: "libsdv_mw_rs_com_android_sdv_vpm_vehicle_client_subscriber_vehicle_state_subscriber",
+    crate_name: "sdv_mw_rs_com_android_sdv_vpm_vehicle_client_subscriber_vehicle_state_subscriber",
+    crate_root: ":libsdv_mw_rs_com_android_sdv_vpm_vehicle_client_subscriber_vehicle_state_subscriber_rs{service_bundle.rs}",
     srcs: [
-        ":libcom_sdv_google_vpm_client_power_notification_service_rpc_rs_src",
+        ":libsdv_mw_rs_com_android_sdv_vpm_vehicle_client_subscriber_vehicle_state_subscriber_rs",
     ],
+    use_expansive_default_srcs: false,
     rustlibs: [
+        "libprotobuf",
+        "liblog_rust",
         "libsdv_rs",
+        "libfutures",
         "libsdv_vpm_api",
-    ],
-    proc_macros: [
-        "libasync_trait",
+        "libvsidl_v1_stdlib_proto_rs",
     ],
     apex_available: [
         "//apex_available:platform",

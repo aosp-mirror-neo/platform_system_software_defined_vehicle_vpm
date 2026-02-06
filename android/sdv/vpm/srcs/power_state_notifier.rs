@@ -24,7 +24,7 @@ use async_trait::async_trait;
 use binder::{DeathRecipient, IBinder};
 use binder_tokio::Tokio;
 use binder_tokio::TokioRuntime;
-use com_sdv_google_vpm_client_power_notification_service_rpc::Client;
+use com_android_sdv_vpm_client_power_notification_service_rpc::Client;
 use google_sdv_vpm::aidl::google::sdv::vpm::IPowerStateClientApi::IPowerStateClientApiAsyncServer;
 use google_sdv_vpm::aidl::google::sdv::vpm::IPowerStateClientApi::{
     BnPowerStateClientApi, BpPowerStateClientApi, IPowerStateClientApi,
@@ -123,7 +123,7 @@ impl PowerStateNotifierImpl {
     fn get_attributes(&self) -> anyhow::Result<ClientAttributes> {
         let server_name = get_server_unit_name(
             self.vm_name.as_str(),
-            "com.sdv.google.vpm.client",
+            "com.android.sdv.vpm.client",
             "VpmSystemClient",
             Client::DEFAULT_UNIT_NAME,
         )?;
@@ -475,7 +475,7 @@ mod tests {
         // And the server_name should be correctly constructed
         let server_name = attributes.get_server_name();
         assert_eq!(server_name.get_vm_name(), vm_name);
-        assert_eq!(server_name.get_package_name(), "com.sdv.google.vpm.client");
+        assert_eq!(server_name.get_package_name(), "com.android.sdv.vpm.client");
         assert_eq!(server_name.get_bundle_name(), "VpmSystemClient");
         assert_eq!(server_name.get_service_unit_name(), Client::DEFAULT_UNIT_NAME);
 

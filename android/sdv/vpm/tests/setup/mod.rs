@@ -17,8 +17,8 @@
 
 use crate::setup::binder::BinderFeatures;
 use crate::setup::binder::Strong;
-use com_sdv_google_vpm_client_power_notification_service_rpc::Interface as NotificationInterface;
-use com_sdv_google_vpm_vpm_system_service_rpc::Client;
+use com_android_sdv_vpm_client_power_notification_service_rpc::Interface as NotificationInterface;
+use com_android_sdv_vpm_vpm_system_service_rpc::Client;
 use futures_util::StreamExt;
 use google_sdv_vpm::aidl::google::sdv::vpm::IPowerStateClientApi::{
     BpPowerStateClientApi, IPowerStateClientApi,
@@ -261,11 +261,11 @@ impl TestVePSM {
         let client = bundle
             .create_rpc_client(
                 UnitName::builder()
-                    .package_name("com.sdv.google.vpm")
+                    .package_name("com.android.sdv.vpm")
                     .bundle_name("VpmSystemServiceBundle")
                     .vm_name(comms.context.get_self_fqin().get_sdv_vm_name())
                     .service_unit_name(
-                        com_sdv_google_vpm_vpm_system_service_rpc::Client::DEFAULT_UNIT_NAME,
+                        com_android_sdv_vpm_vpm_system_service_rpc::Client::DEFAULT_UNIT_NAME,
                     )
                     .build()
                     .unwrap(),
@@ -376,7 +376,7 @@ impl NotificationInterface for PowerNotificationReceiver {
 fn create_context(instance_name: String) -> ContextRef {
     let fqin = ServiceFqin::builder()
         .sdv_vm_name("vm")
-        .sdv_package_name("com.sdv.google.vpm.client")
+        .sdv_package_name("com.android.sdv.vpm.client")
         .service_bundle_name("VpmSystemClient")
         .service_instance_name(instance_name)
         .build()

@@ -20,7 +20,7 @@ use crate::power_service::PowerStateRequestHandler;
 use crate::PowerState;
 use crate::PowerStateRequestHandlerImpl;
 use async_trait::async_trait;
-use com_sdv_google_vpm_vpm_system_service_rpc::Interface;
+use com_android_sdv_vpm_vpm_system_service_rpc::Interface;
 use log::{error, info};
 use mockall::automock;
 use sdv_mw_rs_comms::Publisher;
@@ -177,7 +177,7 @@ mod tests {
     use crate::power_service::MockPowerStateRequestHandler;
     use crate::power_state::On;
     use anyhow::anyhow;
-    use com_sdv_google_vpm_vpm_system_service_rpc::Interface;
+    use com_android_sdv_vpm_vpm_system_service_rpc::Interface;
     use sdv_comms::id::ServiceFqin;
     use sdv_mw_rs_comms::codec::decode;
     use sdv_mw_rs_comms::MockPublish;
@@ -212,7 +212,7 @@ mod tests {
             vehicle_state: VpmVehicleState::VEHICLE_ON.into(),
             ..Default::default()
         };
-        let fqin = ServiceFqin::from_str("vm:com.sdv.google.vpm.VpmSystemServiceBundle/default")
+        let fqin = ServiceFqin::from_str("vm:com.android.sdv.vpm.VpmSystemServiceBundle/default")
             .expect("Could not create context for tests!");
         let result = rpc_server.SetVehicleState(fqin, &request).await;
 
@@ -237,7 +237,7 @@ mod tests {
         let request = SetVehicleStateRequest { ..Default::default() };
 
         // Then: result should be error.
-        let fqin = ServiceFqin::from_str("vm:com.sdv.google.vpm.VpmSystemServiceBundle/default")
+        let fqin = ServiceFqin::from_str("vm:com.android.sdv.vpm.VpmSystemServiceBundle/default")
             .expect("Could not create context for tests!");
         let err = rpc_server.SetVehicleState(fqin, &request).await.err().unwrap();
         assert_eq!(err.status_code(), SdvStatusCode::Internal);
@@ -260,7 +260,7 @@ mod tests {
         drop(vehicle_state_receiver);
 
         // Then: result should be error.
-        let fqin = ServiceFqin::from_str("vm:com.sdv.google.vpm.VpmSystemServiceBundle/default")
+        let fqin = ServiceFqin::from_str("vm:com.android.sdv.vpm.VpmSystemServiceBundle/default")
             .expect("Could not create context for tests!");
         let err = rpc_server.SetVehicleState(fqin, &request).await.err().unwrap();
         assert_eq!(err.status_code(), SdvStatusCode::Internal);
@@ -284,7 +284,7 @@ mod tests {
             shutdown_type: ShutdownType::POWER_OFF.into(),
             ..Default::default()
         };
-        let fqin = ServiceFqin::from_str("vm:com.sdv.google.vpm.VpmSystemServiceBundle/default")
+        let fqin = ServiceFqin::from_str("vm:com.android.sdv.vpm.VpmSystemServiceBundle/default")
             .expect("Could not create context for tests!");
         let response = rpc_server.SetPowerState(fqin, &request).await;
 
@@ -307,7 +307,7 @@ mod tests {
 
         // When: a power state request is sent
         let request = GetPowerStateRequest { ..Default::default() };
-        let fqin = ServiceFqin::from_str("vm:com.sdv.google.vpm.VpmSystemServiceBundle/default")
+        let fqin = ServiceFqin::from_str("vm:com.android.sdv.vpm.VpmSystemServiceBundle/default")
             .expect("Could not create context for tests!");
         let response = rpc_server.GetPowerState(fqin, &request).await;
 
@@ -333,7 +333,7 @@ mod tests {
             shutdown_type: ShutdownType::POWER_OFF.into(),
             ..Default::default()
         };
-        let fqin = ServiceFqin::from_str("vm:com.sdv.google.vpm.VpmSystemServiceBundle/default")
+        let fqin = ServiceFqin::from_str("vm:com.android.sdv.vpm.VpmSystemServiceBundle/default")
             .expect("Could not create context for tests!");
         let response = rpc_server.SetPowerState(fqin, &request).await;
 

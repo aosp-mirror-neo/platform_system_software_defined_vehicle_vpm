@@ -20,31 +20,30 @@ package {
 }
 
 genrule {
-    name: "libsdv_mw_rs_com_sdv_google_vpm_vpm_system_service_bundle_rs",
+    name: "libsdv_mw_rs_com_android_sdv_vpm_client_vpm_system_client_rs",
     tools: ["extract_catalog_zip"],
     srcs: [":vsidlc_vpm_v1_catalog_files"],
     out: [
         "service_bundle.rs",
     ],
-    cmd: "$(location extract_catalog_zip) $(in) --service-bundle com.sdv.google.vpm VpmSystemServiceBundle",
+    cmd: "$(location extract_catalog_zip) $(in) --service-bundle com.android.sdv.vpm.client VpmSystemClient",
 }
 
 rust_library {
-    name: "libsdv_mw_rs_com_sdv_google_vpm_vpm_system_service_bundle",
-    crate_name: "sdv_mw_rs_com_sdv_google_vpm_vpm_system_service_bundle",
+    name: "libsdv_mw_rs_com_android_sdv_vpm_client_vpm_system_client",
+    crate_name: "sdv_mw_rs_com_android_sdv_vpm_client_vpm_system_client",
+    crate_root: ":libsdv_mw_rs_com_android_sdv_vpm_client_vpm_system_client_rs{service_bundle.rs}",
     srcs: [
-        ":libsdv_mw_rs_com_sdv_google_vpm_vpm_system_service_bundle_rs{service_bundle.rs}",
+        ":libsdv_mw_rs_com_android_sdv_vpm_client_vpm_system_client_rs",
     ],
+    use_expansive_default_srcs: false,
     rustlibs: [
         "libprotobuf",
         "liblog_rust",
         "libsdv_rs",
         "libfutures",
-        "libsdv_vpm_api",
-        "libvsidl_v1_stdlib_proto_rs",
-        "libcom_sdv_google_vpm_vpm_system_service_rpc_rs",
-        "libcom_sdv_google_vpm_client_power_notification_service_rpc_rs",
-        "libsdv_proto_reflection_rs",
+        "libcom_android_sdv_vpm_client_power_notification_service_rpc_rs",
+        "libcom_android_sdv_vpm_vpm_system_service_rpc_rs",
     ],
     apex_available: [
         "//apex_available:platform",

@@ -426,29 +426,17 @@ mod tests {
     use crate::power_service::notify_oem;
     use anyhow::anyhow;
     use protobuf::EnumOrUnknown;
-    use sdv_comms::id::ServiceFqin;
-    use sdv_comms::ContextRef;
-    use sdv_mw_rs_sdv_comms::SdvComms;
-    use std::str::FromStr;
+    use sdv_mw_rs_comms::MockCommunicate;
     use std::sync::atomic::{AtomicBool, Ordering};
 
     #[tokio::test]
     async fn new_creates_power_service_with_initial_state() {
-        // This test relies on the test environment being able to handle binder calls.
-
-        // Given
-        let fqin =
-            ServiceFqin::from_str("vm:com.sdv.google.vpm.VpmPowerServiceBundle/default").unwrap();
-        let context = ContextRef::create(fqin);
-        let comms = Arc::new(SdvComms { context });
-        let self_fqin = comms.context.get_self_fqin();
-        let vm_name = self_fqin.get_sdv_vm_name();
-
         // Given the persistent power state is the default (PowerOffExit)
         persist_power_state(&PowerOffExit {}).expect("Failed to set default power state");
 
         // When
-        let power_service = PowerServiceImpl::new(comms, vm_name).unwrap();
+        let power_service =
+            PowerServiceImpl::new(Arc::new(MockCommunicate::new()), "test_vm").unwrap();
 
         // Then
         // The service is created, and we can access its channels.

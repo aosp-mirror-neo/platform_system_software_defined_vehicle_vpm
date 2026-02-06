@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 syntax = "proto3";
-package com.sdv.google.vpm.power;
+package com.android.sdv.vpm.power;
 
 enum PowerStateReport {
   /* The default value if there was no report specified. */

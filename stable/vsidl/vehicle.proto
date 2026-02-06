@@ -17,7 +17,7 @@
 
 syntax = "proto3";
 import "sdv/vsidl/v1/annotations.proto";
-package com.sdv.google.vpm.vehicle;
+package com.android.sdv.vpm.vehicle;
 
 /* The set of allowed vehicle states in the vehicle and in the SDV VM. */
 enum VpmVehicleState {
