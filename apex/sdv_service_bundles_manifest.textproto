@@ -26,5 +26,5 @@ sdv_service_bundle_metadata {
     # Reference the manifest itself to mark this as a config-only declaration.
     native_library_path: "etc/sdv_service_bundles_manifest.textproto"
 
-    access_control_list_policy_path: "etc/acl.textproto"
+    authorization_policy_path: "etc/acl.textproto"
 }
