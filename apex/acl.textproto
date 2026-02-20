@@ -30,8 +30,8 @@ acls {
 
 acls {
     name: "VpmClients"
-    include: "com.sdv.google.orchestrator.OrchestratorServiceBundle"
-    include: "com.sdv.google.orchestrator.test.OrchTestServiceBundle"
+    include: "com.android.sdv.orchestrator.OrchestratorServiceBundle"
+    include: "com.android.sdv.orchestrator.test.OrchTestServiceBundle"
     include: "com.android.sdv.vpm.client.VpmSystemClient"
     include: "com.android.sdv.vpm.vehicle.client.subscriber.VehicleStateSubscriber"
 }
