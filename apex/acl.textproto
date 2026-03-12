@@ -55,3 +55,15 @@ service_units {
     name: "com-android-sdv-vpm-vpm-system-service"
     acl_names: "VpmClients"
 }
+
+# Permissions
+
+publisher {
+    message: "com.android.sdv.vpm.vehicle.VehicleStateChange"
+    topic: "com-android-sdv-vpm-vehicle-vehicle-state-change-unique"
+}
+
+server {
+    service: "com.android.sdv.vpm.VpmSystemService"
+    channel: "com-android-sdv-vpm-vpm-system-service"
+}
