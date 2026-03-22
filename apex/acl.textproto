@@ -67,3 +67,8 @@ server {
     service: "com.android.sdv.vpm.VpmSystemService"
     channel: "com-android-sdv-vpm-vpm-system-service"
 }
+
+client {
+    service: "com.android.sdv.vpm.client.PowerNotificationService"
+    channel: "com-android-sdv-vpm-client-power-notification-service"
+}
