@@ -105,7 +105,7 @@ rust_test {
         "general-tests",
     ],
     prefer_rlib: true,
-    test_config_template: ":sdv_authz_enforcement_flag_enabled_config_template",
+    test_config_template: ":sdv_authz_enforcement_flag_permissions_only_config_template",
 }
 
 rust_test {
@@ -131,7 +131,7 @@ rust_test {
         unit_test: false,
     },
     require_root: true,
-    test_config_template: ":sdv_authz_enforcement_flag_enabled_config_template",
+    test_config_template: ":sdv_authz_enforcement_flag_permissions_only_config_template",
 }
 
 rust_test {
@@ -157,7 +157,7 @@ rust_test {
         "general-tests",
     ],
     require_root: true,
-    test_config_template: ":sdv_authz_enforcement_flag_enabled_config_template",
+    test_config_template: ":sdv_authz_enforcement_flag_permissions_only_config_template",
 }
 
 rust_test {
@@ -180,7 +180,7 @@ rust_test {
         "general-tests",
     ],
     require_root: true,
-    test_config_template: ":sdv_authz_enforcement_flag_enabled_config_template",
+    test_config_template: ":sdv_authz_enforcement_flag_permissions_only_config_template",
 }
 
 rust_test {
@@ -206,7 +206,7 @@ rust_test {
         "general-tests",
     ],
     require_root: true,
-    test_config_template: ":sdv_authz_enforcement_flag_enabled_config_template",
+    test_config_template: ":sdv_authz_enforcement_flag_permissions_only_config_template",
 }
 
 rust_test {
@@ -232,5 +232,5 @@ rust_test {
         "general-tests",
     ],
     require_root: true,
-    test_config_template: ":sdv_authz_enforcement_flag_enabled_config_template",
+    test_config_template: ":sdv_authz_enforcement_flag_permissions_only_config_template",
 }
