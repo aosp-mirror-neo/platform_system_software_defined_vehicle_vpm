@@ -42,7 +42,9 @@ rust_library {
         "liblog_rust",
         "libsdv_rs",
         "libfutures",
+        "libsdv_vpm_api",
         "libcom_android_sdv_vpm_client_power_notification_service_rpc_rs",
+        "libvsidl_v1_stdlib_proto_rs",
         "libcom_android_sdv_vpm_vpm_system_service_rpc_rs",
     ],
     apex_available: [
