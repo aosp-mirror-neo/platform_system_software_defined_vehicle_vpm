@@ -30,5 +30,5 @@ server {
 
 client {
     service: "com.android.sdv.vpm.client.PowerNotificationService"
-    channel: "com-android-sdv-vpm-client-power-notification-service"
+    allow_all_channels: true
 }
