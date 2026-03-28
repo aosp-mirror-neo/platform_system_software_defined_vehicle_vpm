@@ -16,46 +16,6 @@
 # proto-file: //system/software_defined_vehicle/middleware/service_authz/proto/sdv/authz/policy/authz_policy.proto
 # proto-message: AuthzPolicy
 
-# ACL policies for VPM Unit Types.
-
-acls {
-    name: "Internal"
-    include: "com.android.sdv.vpm.VpmSystemServiceBundle"
-}
-
-acls {
-    name: "Public"
-    include: "*"
-}
-
-acls {
-    name: "VpmClients"
-    include: "com.android.sdv.orchestrator.OrchestratorServiceBundle"
-    include: "com.android.sdv.orchestrator.test.OrchTestServiceBundle"
-    include: "com.android.sdv.vpm.client.VpmSystemClient"
-    include: "com.android.sdv.vpm.vehicle.client.subscriber.VehicleStateSubscriber"
-}
-
-unit_types {
-    name: "VpmSystemService"
-    acl_names: "Internal"
-}
-
-unit_types {
-    name: "vehicle.VehicleStateChange"
-    acl_names: "Public"
-}
-
-service_units {
-    name: "com-android-sdv-vpm-vehicle-vehicle-state-change-unique"
-    acl_names: "VpmClients"
-}
-
-service_units {
-    name: "com-android-sdv-vpm-vpm-system-service"
-    acl_names: "VpmClients"
-}
-
 # Permissions
 
 publisher {
